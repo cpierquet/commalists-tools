@@ -125,7 +125,7 @@
 					{\Huge \texttt{commalists-tools}}\\
 					\\
 					{\LARGE Macros for manipulating numeral} \\
-					{\LARGE comma separated lists :} \\
+					{\LARGE comma separated lists:} \\
 					{\LARGE sorting, adding, removing, etc} \\
 					\\
 					{\small \texttt{Version \TPversion{} -- \TPdate}}
@@ -159,12 +159,12 @@
 
 \begin{tcolorbox}[colframe=lightgray,colback=lightgray!5]
 \def\mytestlist{14,10,15,11,9,10}
-We consider the list : \mytestlist\par\smallskip
+We consider the list: \mytestlist\par\smallskip
 The minimum value is \minoflist*{\mytestlist} and the maximum is \maxoflist*{14,10,15,11,9,10}\par\smallskip
 Ascending sorted list is \sortasclist*{\mytestlist}\par\smallskip
 Meaning value of the list is \meanoflist*{\mytestlist}\par\smallskip
-If we remove the value 10, the the list is \removevalinlist*{10}{\mytestlist}\par\smallskip
-We test if 15 is in the list : \xintifvalinlist{15}{\mytestlist}{true}{false}
+If we remove the value 10, then the list is \removevalinlist*{10}{\mytestlist}\par\smallskip
+We test if 15 is in the list: \xintifvalinlist{15}{\mytestlist}{true}{false}
 \end{tcolorbox}
 
 \vfill~
@@ -199,7 +199,7 @@ We test if 15 is in the list : \xintifvalinlist{15}{\mytestlist}{true}{false}
 
 \section{Loading, useful packages}
 
-In order to load \texttt{randintlist}, simply use :
+In order to load \texttt{randintlist}, simply use:
 
 \begin{DemoCode}{listing only}
 \usepackage{commalists-tools}
@@ -215,15 +215,15 @@ The idea is to propose "reusage" of lists with \texttt{listofitems} or other com
 
 \subsection{Global usage}
 
-Package \texttt{commalists-tools} supports (basic) manipulations on numeral comma separated lists :
+Package \texttt{commalists-tools} supports (basic) manipulations on numeral comma separated lists:
 
 \begin{itemize}
-	\item sorting ;
-	\item adding values ;
-	\item removing values ;
-	\item counting values ;
-	\item mean, sum, product ;
-	\item etc
+	\item sorting;
+	\item adding values;
+	\item removing values;
+	\item counting values;
+	\item mean, sum, product;
+	\item etc.
 \end{itemize}
 
 Starred versions only print the result, whereas non starred versions store the result into a macro.
@@ -406,7 +406,7 @@ The sum is \mysum\ and the prod is \myprod
 
 \section{History}
 
-\texttt{0.1.0 : Initial version}
+\texttt{0.1.0: Initial version}
 
 \section{The code}
 
