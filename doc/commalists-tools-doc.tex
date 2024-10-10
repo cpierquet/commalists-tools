@@ -27,8 +27,8 @@
 \hypersetup{pdfborder=0 0 0}
 \usepackage[margin=2cm]{geometry}
 \setlength{\parindent}{0pt}
-\def\TPversion{0.1.0}
-\def\TPdate{25/09/2024}
+\def\TPversion{0.1.1}
+\def\TPdate{10/10/2024}
 \usepackage{tcolorbox}
 \usepackage{pgffor}
 \tcbuselibrary{breakable,skins,hooks,listingsutf8}
@@ -49,7 +49,7 @@
 	keywordstyle={\color{violet}},%
 	classoffset=2,%
 	alsoletter={-},%
-	morekeywords={\sortasclist,\sortdeslist,\addvalinlist,\removevalinlist,\boolvalinlist,\xintifvalinlist,\countvalinlist,\minoflist,\maxoflist,\meanoflist,\sumoflist,\prodoflist,\reverselist,\getvaluefromlist},%
+	morekeywords={\sortasclist,\sortdeslist,\addvalinlist,\removevalinlist,\boolvalinlist,\xintifvalinlist,\countvalinlist,\minoflist,\maxoflist,\meanoflist,\sumoflist,\prodoflist,\reverselist,\getvaluefromlist,\lenoflist,\getvaluefromlist},%
 	keywordstyle={\color{green!50!black}},%
 	classoffset=3,%
 	morekeywords={},%
@@ -79,7 +79,7 @@
 		keywordstyle={\color{violet}},%
 		classoffset=2,%
 		alsoletter={-},%
-		morekeywords={\sortasclist,\sortdeslist,\addvalinlist,\removevalinlist,\boolvalinlist,\xintifvalinlist,\countvalinlist,\minoflist,\maxoflist,\meanoflist,\sumoflist,\prodoflist,\reverselist,\getvaluefromlist},%
+		morekeywords={\sortasclist,\sortdeslist,\addvalinlist,\removevalinlist,\boolvalinlist,\xintifvalinlist,\countvalinlist,\minoflist,\maxoflist,\meanoflist,\sumoflist,\prodoflist,\reverselist,\getvaluefromlist,\lenoflist,\getvaluefromlist},%
 		keywordstyle={\color{green!50!black}},%
 		classoffset=3,%
 		morekeywords={},%
@@ -149,22 +149,27 @@
 
 \begin{tcblisting}{colframe=lightgray,colback=lightgray!5,listing only}
 \def\mytestlist{14,10,15,11,9,10}
+\lenoflist*{\mytestlist}
 \minoflist*{\mytestlist}
 \maxoflist*{14,10,15,11,9,10}
 \sortasclist*{\mytestlist}
 \meanoflist*{\mytestlist}
 \removevalinlist*{10}{\mytestlist}
 \xintifvalinlist{15}{\mytestlist}{true}{false}
+\getvaluefromlist*{\mytestlist}{3}
 \end{tcblisting}
 
 \begin{tcolorbox}[colframe=lightgray,colback=lightgray!5]
 \def\mytestlist{14,10,15,11,9,10}
 We consider the list: \mytestlist\par\smallskip
+There's \lenoflist*{\mytestlist} values in the list\par\smallskip
 The minimum value is \minoflist*{\mytestlist} and the maximum is \maxoflist*{14,10,15,11,9,10}\par\smallskip
 Ascending sorted list is \sortasclist*{\mytestlist}\par\smallskip
 Meaning value of the list is \meanoflist*{\mytestlist}\par\smallskip
 If we remove the value 10, then the list is \removevalinlist*{10}{\mytestlist}\par\smallskip
-We test if 15 is in the list: \xintifvalinlist{15}{\mytestlist}{true}{false}
+We test if 15 is in the list: \xintifvalinlist{15}{\mytestlist}{true}{false}\par\smallskip
+The third value of the list is \getvaluefromlist*{\mytestlist}{3}
+
 \end{tcolorbox}
 
 \vfill~
@@ -223,6 +228,7 @@ Package \texttt{commalists-tools} supports (basic) manipulations on numeral comm
 	\item removing values;
 	\item counting values;
 	\item mean, sum, product;
+	\item get value, get length;
 	\item etc.
 \end{itemize}
 
@@ -235,6 +241,10 @@ Starred versions only print the result, whereas non starred versions store the r
 \subsection{The macros for calculing}
 
 \begin{DemoCode}{listing only}
+%getting length of list, only printing
+\lenoflist*{list}
+%storing length of list into macro (\resmylen by default)
+\lenoflist*{list}
 %getting min of list, only printing
 \minoflist*{list}
 %storing min of list into \macro (\resmin by default)
@@ -247,9 +257,15 @@ Starred versions only print the result, whereas non starred versions store the r
 
 \begin{DemoCode}{}
 %only printing
-\minoflist*{14,10,15,11,9,10} and \maxoflist*{14,10,15,11,9,10} \\
-%storing min/max of list
+\lenoflist*{14,10,15,11,9,10}\\
+%only printing
+\minoflist*{14,10,15,11,9,10} and \maxoflist*{14,10,15,11,9,10}
+\end{DemoCode}
+
+\begin{DemoCode}{}
+%storing len/min/max of list
 \def\mytestlist{10,14.5,20,12,8.5}
+\lenoflist{\mytestlist}[\mylen]Length of list is \mylen\ \&
 \minoflist{\mytestlist}[\mymin]Min of list is \mymin\ \&
 \maxoflist{\mytestlist}[\mymax]Max of list is \mymax
 \end{DemoCode}
@@ -296,20 +312,35 @@ The sum is \mysum\ and the prod is \myprod
 
 \begin{DemoCode}{}
 %sorting (asc), only printing
-\sortasclist*{14,10,15,11,9,10}\\
+\sortasclist*{14,10,15,11.5,9,10}\\
 %sorting (asc) and storing (overwrite)
-\def\tmpsortlist{14,10,15,11,9,10}
+\def\tmpsortlist{14,10,15,11.5,9,10}
 \sortasclist{\tmpsortlist}\tmpsortlist\\
 %analysing
 \readlist*\tmpSORTlist{\tmpsortlist}
 \showitems{\tmpSORTlist}
 \end{DemoCode}
 
+\begin{DemoCode}{listing only}
+%extract value, only printing
+\getvaluefromlist*{list}{index}
+%extract value and storing into macro (\myelt by default)
+\getvaluefromlist{list}{index}[\macro]
+\end{DemoCode}
+
+\begin{DemoCode}{}
+%extract value, only printing
+\def\listtmp{1,2,3,6,3,1,5,7,3}%
+\getvaluefromlist*{\listtmp}{4}\par\smallskip
+%storing
+\getvaluefromlist{\listtmp}{-1}[\mylastelt]The last element is \mylastelt
+\end{DemoCode}
+
 \begin{DemoCode}{}
 %sorting (des), only printing
-\sortdeslist*{14,10,15,11,9,10}\\
+\sortdeslist*{14,10,15,11.5,9,10}\\
 %sorting (asc) and storing (overwrite)
-\def\tmpsortlist{14,10,15,11,9,10}
+\def\tmpsortlist{14,10,15,11.5,9,10}
 \sortdeslist{\tmpsortlist}\tmpsortlist\\
 %analysing
 \readlist*\tmpSORTlist{\tmpsortlist}
@@ -405,6 +436,8 @@ The sum is \mysum\ and the prod is \myprod
 \pagebreak
 
 \section{History}
+
+\texttt{0.1.1: Compatibility with decimals, len of list, get value}
 
 \texttt{0.1.0: Initial version}
 
